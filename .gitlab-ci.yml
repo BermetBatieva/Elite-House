@@ -1,0 +1,16 @@
+stages:
+  - deploy
+
+Deploying:
+  stage: deploy
+  script:
+#    - kill -9 $(lsof -t -i:8080)
+    - echo 'start building'
+    - mvn package
+    - echo 'start deploying'
+    - nohup java -jar ./target/HRMS-0.0.1-SNAPSHOT.jar > ./log.txt 2>&1 &
+    - echo $! > ./log.txt
+  tags:
+    - server
+  only:
+    - main
